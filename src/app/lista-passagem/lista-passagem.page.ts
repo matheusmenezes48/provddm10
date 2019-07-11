@@ -21,6 +21,10 @@ export class ListaPassagemPage implements OnInit {
   adicionar(passagem) {
     return this.http.post("https://5d262f92eeb36400145c59c4.mockapi.io/passagem/", passagem)
   }
+  delete(id){
+    return this.http.delete("https://5d262f92eeb36400145c59c4.mockapi.io/passagem/" + id )
+  }
+
 
   constructor(public modalController: ModalController, private http: HttpClient) {
     this.listar().subscribe(
@@ -46,8 +50,16 @@ export class ListaPassagemPage implements OnInit {
     await modal.present();
 
     modal.onDidDismiss().then((passagem) => {
-      this.add(passagem.data)      
+      this.add(passagem.data)
     })
+  }
+  remove(passagem) {
+      this.delete(passagem.id).subscribe(
+        (data) => {
+          var i = this.passagens.indexOf(passagem);
+          this.passagens.splice(i, 1);
+        }
+      )
   }
 
 
